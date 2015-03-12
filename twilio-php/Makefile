@@ -16,10 +16,15 @@ define LICENSE
 endef
 export LICENSE
 
+COMPOSER = $(shell which composer)
+ifeq ($(strip $(COMPOSER)),)
+	COMPOSER = php composer.phar
+endif
+
 all: test
 
 clean:
-	@rm -rf dist
+	@rm -rf dist venv
 
 PHP_FILES = `find dist -name \*.php`
 dist: clean
@@ -31,10 +36,37 @@ dist: clean
 	  mv $$php.new $$php; \
 	done
 
-# if these fail, you may need to install the helper libraries - see "Running
-# Tests" at http://readthedocs.org/projects/twilio-php/.
-test:
-	@echo running tests
-	@phpunit --configuration tests/phpunit.xml
+test-install:
+	# Composer: http://getcomposer.org/download/
+	$(COMPOSER) install
 
-.PHONY: all clean dist test
+install:
+	pear channel-discover twilio.github.com/pear
+	pear install twilio/Services_Twilio
+
+# if these fail, you may need to install the helper library - run "make
+# test-install"
+test:
+	@PATH=vendor/bin:$(PATH) phpunit --strict --colors --configuration tests/phpunit.xml;
+
+venv:
+	virtualenv venv
+
+docs-install: venv
+	. venv/bin/activate; pip install -r docs/requirements.txt
+
+docs:
+	. venv/bin/activate; cd docs && make html
+
+release-install:
+	pear channel-discover twilio.github.com/pear || true
+	pear channel-discover pear.pirum-project.org || true
+	pear install pirum/Pirum || true
+	pear install XML_Serializer-0.20.2 || true
+	pear install PEAR_PackageFileManager2 || true
+
+authors:
+	echo "Authors\n=======\n\nA huge thanks to all of our contributors:\n\n" > AUTHORS.md
+	git log --raw | grep "^Author: " | cut -d ' ' -f2- | cut -d '<' -f1 | sed 's/^/- /' | sort | uniq >> AUTHORS.md
+
+.PHONY: all clean dist test docs docs-install test-install authors

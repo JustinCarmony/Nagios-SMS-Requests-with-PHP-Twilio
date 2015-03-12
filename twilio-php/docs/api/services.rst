@@ -1,24 +1,26 @@
-===============================
-Services_Twilio
-===============================
+###############################
+HTTP Helper Classes
+###############################
 
-.. php:class:: Services_Twilio
+**********************
+The Twilio Rest Client
+**********************
 
-  .. php:method:: __construct($sid, $token)
+.. phpautoclass:: Services_Twilio
+    :filename: ../Services/Twilio.php
+    :members:
 
-     Create a new Services_Twilio REST client
+***************************
+Twilio's Custom HTTP Client
+***************************
 
-     :param string $sid: Twilio Account SID
-     :param string $token: Twilio Account auth token
-     :param string $version: Twilio API version string (should be 2008-08-01 or 2010-04-01)
-     :param $_http: A :php:class:`Services_Twilio_TinyHttp` client.
-     :type $_http: :php:class:`Services_Twilio_TinyHttp`
+.. phpautoclass:: Services_Twilio_TinyHttp
+    :filename: ../Services/Twilio/TinyHttp.php
+    :members:
 
-  .. php:attr:: account
-
-     A :php:class:`Services_Twilio_Rest_Account` instance for the given account SID
-
-  .. php:attr:: accounts
-
-     A :php:class:`Services_Twilio_Rest_Accounts` instance
-
+***********************
+Twilio Rest Exceptions
+***********************
+.. phpautoclass:: Services_Twilio_RestException
+    :filename: ../Services/Twilio/RestException.php
+    :members:

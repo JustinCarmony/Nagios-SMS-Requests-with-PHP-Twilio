@@ -1,38 +1,249 @@
 .. _api-rest:
 
-===============================
-Services_Twilio_Rest
-===============================
+###############################
+Twilio Rest Resources
+###############################
+
+**************
+List Resources
+**************
+
+.. phpautoclass:: Services_Twilio_ListResource
+    :filename: ../Services/Twilio/ListResource.php
+    :members:
+
+All of the below classes inherit from the :php:class:`ListResource
+<Services_Twilio_ListResource>`.
 
 Accounts
 ===========
 
-.. php:class:: Services_Twilio_Rest_Accounts
+.. phpautoclass:: Services_Twilio_Rest_Accounts
+    :filename: ../Services/Twilio/Rest/Accounts.php
+    :members:
 
-  For more information, see the `Account List Resource <http://www.twilio.com/docs/api/rest/account#list>`_ documentation.
+AvailablePhoneNumbers
+========================
 
-  .. php:method:: get($sid)
+.. php:class:: Services_Twilio_Rest_AvailablePhoneNumbers
 
-     Get an account resource.
+   For more information, see the `AvailablePhoneNumbers API Resource <http://www.twilio.com/docs/api/rest/available-phone-numbers#local>`_ documentation at twilio.com.
 
-     :param array $params: A 34 character string that uniquely identifies this account.
-     :returns: A :php:class:`Services_Twilio_Rest_Account` instance
+   .. php:method:: getList($country, $type)
 
-  .. php:method:: create($params = array())
+    Get a list of available phone numbers.
 
-     Create a new subaccount.
+    :param string country: The 2-digit country code for numbers ('US', 'GB',
+        'CA')
+    :param string type: The type of phone number ('TollFree' or 'Local')
+    :return: An instance of the :php:class:`Services_Twilio_Rest_AvailablePhoneNumbers` resource.
 
-     :param array $params: An array of parameters describing the new subaccount
-     :returns: A new :php:class:`Services_Twilio_Rest_Account` instance
+    .. php:attr:: available_phone_numbers
 
-     The **$params** array can contain the following keys:
+       A list of :php:class:`Services_Twilio_Rest_AvailablePhoneNumber` instances.
 
-     *name*
-       A description of this account, up to 64 characters long
+    .. php:attr:: uri
+
+       The uri representing this resource, relative to https://api.twilio.com.
+
+
+Calls
+=======
+
+.. php:class:: Services_Twilio_Rest_Calls
+
+   For more information, see the `Call List Resource <http://www.twilio.com/docs/api/rest/call#list>`_ documentation.
+
+   .. php:method:: create($from, $to, $url, params = array())
+
+      Make an outgoing call
+
+      :param string $from: The phone number to use as the caller id.
+      :param string $to: The number to call formatted with a '+' and country code
+      :param string $url: The fully qualified URL that should be consulted when
+                          the call connects. This value can also be an ApplicationSid.
+      :param array $params: An array of optional parameters for this call
+
+      The **$params** array can contain the following keys:
+
+      *Method*
+        The HTTP method Twilio should use when making its request to the above Url parameter's value. Defaults to POST. If an ApplicationSid parameter is present, this parameter is ignored.
+
+      *FallbackUrl*
+        A URL that Twilio will request if an error occurs requesting or executing the TwiML at Url. If an ApplicationSid parameter is present, this parameter is ignored.
+
+      *FallbackMethod*
+        The HTTP method that Twilio should use to request the FallbackUrl. Must be either GET or POST. Defaults to POST. If an ApplicationSid parameter is present, this parameter is ignored.
+
+      *StatusCallback*
+        A URL that Twilio will request when the call ends to notify your app. If an ApplicationSid parameter is present, this parameter is ignored.
+
+      *StatusCallbackMethod*
+        The HTTP method Twilio should use when requesting the above URL. Defaults to POST. If an ApplicationSid parameter is present, this parameter is ignored.
+
+      *SendDigits*
+        A string of keys to dial after connecting to the number. Valid digits in the string include: any digit (0-9), '#' and '*'. For example, if you connected to a company phone number, and wanted to dial extension 1234 and then the pound key, use SendDigits=1234#. Remember to URL-encode this string, since the '#' character has special meaning in a URL.
+
+      *IfMachine*
+        Tell Twilio to try and determine if a machine (like voicemail) or a human has answered the call. Possible values are Continue and Hangup. See the answering machines section below for more info.
+
+      *Timeout*
+        The integer number of seconds that Twilio should allow the phone to ring before assuming there is no answer. Default is 60 seconds, the maximum is 999 seconds. Note, you could set this to a low value, such as 15, to hangup before reaching an answering machine or voicemail.
+
+CredentialListMappings
+=========================
+
+.. phpautoclass:: Services_Twilio_Rest_CredentialListMappings
+    :filename: ../Services/Twilio/Rest/CredentialListMappings.php
+    :members:
+
+
+CredentialLists
+=================
+
+.. phpautoclass:: Services_Twilio_Rest_CredentialLists
+    :filename: ../Services/Twilio/Rest/CredentialLists.php
+    :members:
+
+Credentials
+==============
+
+.. phpautoclass:: Services_Twilio_Rest_Credentials
+    :filename: ../Services/Twilio/Rest/Credentials.php
+    :members:
+
+Domains
+==========
+
+.. phpautoclass:: Services_Twilio_Rest_Domains
+    :filename: ../Services/Twilio/Rest/Domains.php
+    :members:
+
+
+IncomingPhoneNumbers
+========================
+
+.. phpautoclass:: Services_Twilio_Rest_IncomingPhoneNumbers,Services_Twilio_Rest_Local,Services_Twilio_Rest_Mobile,Services_Twilio_Rest_TollFree
+    :filename: ../Services/Twilio/Rest/IncomingPhoneNumbers.php
+    :members:
+
+IpAccessControlListMappings
+==============================
+
+.. phpautoclass:: Services_Twilio_Rest_IpAccessControlListMappings
+    :filename: ../Services/Twilio/Rest/IpAccessControlListMappings.php
+    :members:
+
+IpAccessControlLists
+=======================
+
+.. phpautoclass:: Services_Twilio_Rest_IpAccessControlLists
+    :filename: ../Services/Twilio/Rest/IpAccessControlLists.php
+    :members:
+
+IpAddresses
+=======================
+
+.. phpautoclass:: Services_Twilio_Rest_IpAddresses
+    :filename: ../Services/Twilio/Rest/IpAddresses.php
+    :members:
+
+Media
+======
+
+.. phpautoclass:: Services_Twilio_Rest_Media
+    :filename: ../Services/Twilio/Rest/Media.php
+    :members:
+
+Members
+===========
+
+.. php:class:: Services_Twilio_Rest_Members
+
+  For more information, including a list of filter parameters, see the `Member List Resource <http://www.twilio.com/docs/api/rest/member#list>`_ documentation.
+
+  .. php:method:: front()
+
+      Return the :php:class:`Services_Twilio_Rest_Member` at the front of the
+      queue.
+
+Messages
+========
+
+.. phpautoclass:: Services_Twilio_Rest_Messages
+    :filename: ../Services/Twilio/Rest/Messages.php
+    :members:
+
+Queues
+===========
+
+.. php:class:: Services_Twilio_Rest_Queues
+
+  For more information, including a list of filter parameters, see the
+  `Queues List Resource <http://www.twilio.com/docs/api/rest/queues#list>`_
+  documentation.
+
+  .. php:method:: create($friendly_name, $params = array())
+
+     Create a new :php:class:`Services_Twilio_Rest_Queue`.
+
+     :param string $friendly_name: The name of the new Queue.
+     :param array $params: An array of optional parameters and their values, 
+        like `MaxSize`.
+     :returns: A new :php:class:`Services_Twilio_Rest_Queue`
+
+
+UsageRecords
+==============
+
+.. php:class:: Services_Twilio_Rest_UsageRecords
+
+  For more information, including a list of filter parameters, see the `UsageRecords List Resource <http://www.twilio.com/docs/api/rest/usage-records#list>`_ documentation.
+
+  .. php:method:: getCategory($category)
+
+    Return the single UsageRecord corresponding to this category of usage.
+    Valid only for the `Records`, `Today`, `Yesterday`, `ThisMonth`,
+    `LastMonth` and `AllTime` resources.
+
+    :param string $category: The category to retrieve a usage record for. For a full list of valid categories, see the full `Usage Category documentation <http://www.twilio.com/docs/api/rest/usage-records#usage-all-categories>`_.
+    :returns: :php:class:`Services_Twilio_Rest_UsageRecord` A single usage record
+
+UsageTriggers
+=============
+
+.. php:class:: Services_Twilio_Rest_UsageTriggers
+
+  For more information, including a list of filter parameters, see the `UsageTriggers List Resource <http://www.twilio.com/docs/api/rest/usage-triggers#list>`_ documentation.
+
+  .. php:method:: create($category, $value, $url, $params = array())
+
+    Create a new UsageTrigger.
+
+    :param string $category: The category of usage to fire a trigger for. A full list of categories can be found in the `Usage Categories documentation <http://www.twilio.com/docs/api/rest/usage-records#usage-categories>`_.
+    :param string $value: Fire the trigger when usage crosses this value.
+    :param string $url: The URL to request when the trigger fires.
+    :param array $params: Optional parameters for this trigger. A full list of parameters can be found in the `Usage Trigger documentation <http://www.twilio.com/docs/api/rest/usage-triggers#list-post-optional-parameters>`_.
+    :returns: :php:class:`Services_Twilio_Rest_UsageTrigger` The created trigger.
+
+
+********************
+Instance Resources
+********************
+
+.. phpautoclass:: Services_Twilio_InstanceResource
+    :filename: ../Services/Twilio/InstanceResource.php
+    :members:
+
+Below you will find a list of objects created by interacting with the Twilio
+API, and the methods and properties that can be called on them. These are
+derived from the :php:class:`ListResource <Services_Twilio_ListResource>` and
+:php:class:`InstanceResource <Services_Twilio_InstanceResource>` above.
 
 
 Account
 ========
+
 .. php:class:: Services_Twilio_Rest_Account
 
    For more information, see the `Account Instance Resource <http://www.twilio.com/docs/api/rest/account#instance>`_ documentation.
@@ -68,7 +279,7 @@ Account
       The authorization token for this account. This token should be kept a secret, so no sharing.
 
 Application
-=================
+===========
 
 .. php:class:: Services_Twilio_Rest_Application
 
@@ -146,121 +357,53 @@ Application
 
       The URI for this resource, relative to https://api.twilio.com.
 
+AvailablePhoneNumber
+========================
 
-Calls
-=======
+.. php:class:: Services_Twilio_Rest_AvailablePhoneNumber
 
-.. php:class:: Services_Twilio_Rest_Calls
+   For more information, see the `AvailablePhoneNumber Instance Resource <http://www.twilio.com/docs/api/rest/available-phone-numbers#instance>`_ documentation.
 
-   For more information, see the `Call Instance Resource <http://www.twilio.com/docs/api/rest/call#list>`_ documentation.
+   .. php:attr:: friendly_name
 
-   .. php:method:: create($from, $to, $url, array $params = array())
+      A nicely-formatted version of the phone number.
 
-      Make an outgoing call
+   .. php:attr:: phone_number
 
-      :param string $from: The phone number to use as the caller id.
-      :param string $to: The number to call formatted with a '+' and country code
-      :param string $url: The fully qualified URL that should be consulted when
-                          the call connects. This value can also be an ApplicationSid.
-      :param array $params: An array of optional parameters for this call
+      The phone number, in E.164 (i.e. "+1") format.
 
-      The **$params** array can contain the following keys:
+   .. php:attr:: lata
 
-      *method*
-        The HTTP method Twilio should use when making its request to the above Url parameter's value. Defaults to POST. If an ApplicationSid parameter is present, this parameter is ignored.
+      The LATA of this phone number.
 
-      *fallback_url*
-        A URL that Twilio will request if an error occurs requesting or executing the TwiML at Url. If an ApplicationSid parameter is present, this parameter is ignored.
+   .. php:attr:: rate_center
 
-      *fallback_method*
-        The HTTP method that Twilio should use to request the FallbackUrl. Must be either GET or POST. Defaults to POST. If an ApplicationSid parameter is present, this parameter is ignored.
+      The rate center of this phone number.
 
-      *status_callback*
-        A URL that Twilio will request when the call ends to notify your app. If an ApplicationSid parameter is present, this parameter is ignored.
+   .. php:attr:: latitude
 
-      *status_callback_method*
-        The HTTP method Twilio should use when requesting the above URL. Defaults to POST. If an ApplicationSid parameter is present, this parameter is ignored.
+      The latitude coordinate of this phone number.
 
-      *send_digits*
-        A string of keys to dial after connecting to the number. Valid digits in the string include: any digit (0-9), '#' and '*'. For example, if you connected to a company phone number, and wanted to dial extension 1234 and then the pound key, use SendDigits=1234#. Remember to URL-encode this string, since the '#' character has special meaning in a URL.
+   .. php:attr:: longitude
 
-      *if_machine*
-        Tell Twilio to try and determine if a machine (like voicemail) or a human has answered the call. Possible values are Continue and Hangup. See the answering machines section below for more info.
+      The longitude coordinate of this phone number.
 
-      *timeout*
-        The integer number of seconds that Twilio should allow the phone to ring before assuming there is no answer. Default is 60 seconds, the maximum is 999 seconds. Note, you could set this to a low value, such as 15, to hangup before reaching an answering machine or voicemail.
+   .. php:attr:: region
 
-.. php:class:: Services_Twilio_Rest_Call
+      The two-letter state or province abbreviation of this phone number.
 
-   For more information, see the `Call Instance Resource <http://www.twilio.com/docs/api/rest/call#instance>`_ documentation.
+   .. php:attr:: postal_code
 
-   .. php:attr:: sid
+      The postal (zip) code of this phone number.
 
-      A 34 character string that uniquely identifies this resource.
+   .. php:attr:: iso_country
 
-   .. php:attr:: parent_call_sid
+Call
+====
 
-      A 34 character string that uniquely identifies the call that created this leg.
-
-   .. php:attr:: date_created
-
-      The date that this resource was created, given as GMT in RFC 2822 format.
-
-   .. php:attr:: date_updated
-
-      The date that this resource was last updated, given as GMT in RFC 2822 format.
-
-   .. php:attr:: account_sid
-
-      The unique id of the Account responsible for creating this call.
-
-   .. php:attr:: to
-
-      The phone number that received this call. e.g., +16175551212 (E.164 format)
-
-   .. php:attr:: from
-
-      The phone number that made this call. e.g., +16175551212 (E.164 format)
-
-   .. php:attr:: phone_number_sid
-
-      If the call was inbound, this is the Sid of the IncomingPhoneNumber that received the call. If the call was outbound, it is the Sid of the OutgoingCallerId from which the call was placed.
-
-   .. php:attr:: status
-
-      A string representing the status of the call. May be :data:`QUEUED`, :data:`RINGING`, :data:`IN-PROGRESS`, :data:`COMPLETED`, :data:`FAILED`, :data:`BUSY` or :data:`NO_ANSWER`.
-
-   .. php:attr:: stat_time
-
-      The start time of the call, given as GMT in RFC 2822 format. Empty if the call has not yet been dialed.
-
-   .. php:attr:: end_time
-
-      The end time of the call, given as GMT in RFC 2822 format. Empty if the call did not complete successfully.
-
-   .. php:attr:: duration
-
-      The length of the call in seconds. This value is empty for busy, failed, unanswered or ongoing calls.
-
-   .. php:attr:: price
-
-      The charge for this call in USD. Populated after the call is completed. May not be immediately available.
-
-   .. php:attr:: direction
-
-      A string describing the direction of the call. inbound for inbound calls, outbound-api for calls initiated via the REST API or outbound-dial for calls initiated by a <Dial> verb.
-
-   .. php:attr:: answered_by
-
-      If this call was initiated with answering machine detection, either human or machine. Empty otherwise.
-
-   .. php:attr:: forwarded_from
-
-      If this call was an incoming call forwarded from another number, the forwarding phone number (depends on carrier supporting forwarding). Empty otherwise.
-
-   .. php:attr:: caller_name
-
-      If this call was an incoming call from a phone number with Caller ID Lookup enabled, the caller's name. Empty otherwise.
+.. phpautoclass:: Services_Twilio_Rest_Call
+    :filename: ../Services/Twilio/Rest/Call.php
+    :members:
 
 CallerId
 ============
@@ -334,7 +477,63 @@ Conference
 
    .. php:attr:: participants
 
-      The :php:class:`Services_Twilio_Rest_Participants` instance, listing people currenlty in this conference
+      The :php:class:`Services_Twilio_Rest_Participants` instance, listing people currently in this conference
+
+CredentialListMapping
+=========================
+
+.. phpautoclass:: Services_Twilio_Rest_CredentialListMapping
+    :filename: ../Services/Twilio/Rest/CredentialListMapping.php
+    :members:
+
+
+CredentialList
+=================
+
+.. phpautoclass:: Services_Twilio_Rest_CredentialList
+    :filename: ../Services/Twilio/Rest/CredentialList.php
+    :members:
+
+Credential
+==============
+
+.. phpautoclass:: Services_Twilio_Rest_Credential
+    :filename: ../Services/Twilio/Rest/Credential.php
+    :members:
+
+Domain
+==========
+
+.. phpautoclass:: Services_Twilio_Rest_Domain
+    :filename: ../Services/Twilio/Rest/Domain.php
+    :members:
+
+IncomingPhoneNumber
+===================
+
+.. phpautoclass:: Services_Twilio_Rest_IncomingPhoneNumber
+    :filename: ../Services/Twilio/Rest/IncomingPhoneNumber.php
+    :members:
+
+IpAccessControlListMapping
+==============================
+
+.. phpautoclass:: Services_Twilio_Rest_IpAccessControlListMapping
+    :filename: ../Services/Twilio/Rest/IpAccessControlListMapping.php
+    :members:
+
+IpAccessControlList
+=======================
+
+.. phpautoclass:: Services_Twilio_Rest_IpAccessControlList
+    :filename: ../Services/Twilio/Rest/IpAccessControlList.php
+    :members:
+
+IpAddress
+==============
+.. phpautoclass:: Services_Twilio_Rest_IpAddress
+    :filename: ../Services/Twilio/Rest/IpAddress.php
+    :members:
 
 
 Notification
@@ -374,11 +573,11 @@ Notification
 
    .. php:attr:: error_code
 
-      A unique error code for the error condition. You can lookup errors, with possible causes and solutions, in our `Error Dictionary <http://www.twilio.com/docs/errors/reference>`.
+      A unique error code for the error condition. You can lookup errors, with possible causes and solutions, in our `Error Dictionary <http://www.twilio.com/docs/errors/reference>`_.
 
    .. php:attr:: more_info
 
-      A URL for more information about the error condition. The URL is a page in our `Error Dictionary <http://www.twilio.com/docs/errors/reference>`.
+      A URL for more information about the error condition. The URL is a page in our `Error Dictionary <http://www.twilio.com/docs/errors/reference>`_.
 
    .. php:attr:: message_text
 
@@ -421,6 +620,30 @@ Notification
    .. php:attr:: uri
 
       The URI for this resource, relative to https://api.twilio.com
+
+Media
+=======
+
+.. phpautoclass:: Services_Twilio_Rest_MediaInstance
+    :filename: ../Services/Twilio/Rest/MediaInstance.php
+    :members:
+
+Member
+=======
+
+.. php:class:: Services_Twilio_Rest_Member
+
+  For more information about available properties, see the `Member Instance Resource <http://www.twilio.com/docs/api/rest/member#instance>`_ documentation.
+
+  .. php:method:: dequeue($url, $method = 'POST')
+
+    Dequeue this member and immediately play the Twiml at the given ``$url``.
+
+    :param string $url: The Twiml URL to play for this member, after dequeuing them
+    :param string $method: The HTTP method to use when fetching the Twiml URL. Defaults to POST.
+    :return: The dequeued member
+    :rtype: :php:class:`Member <Services_Twilio_Rest_Member>` 
+
 
 Participant
 =============
@@ -465,154 +688,15 @@ Participant
 
       The URI for this resource, relative to https://api.twilio.com.
 
-
-PhoneNumber
-=================
-
-.. php:class:: Services_Twilio_Rest_IncomingPhoneNumber
-
-   For more information, see the `IncomingPhoneNumber Instance Resource <http://www.twilio.com/docs/api/rest/incoming-phone-numbers#instance>`_ documentation.
-
-   .. php:attr:: sid
-
-      A 34 character string that uniquely idetifies this resource.
-
-   .. php:attr:: date_created
-
-      The date that this resource was created, given as GMT RFC 2822 format.
-
-   .. php:attr:: date_updated
-
-      The date that this resource was last updated, given as GMT RFC 2822 format.
-
-   .. php:attr:: friendly_name
-
-      A human readable descriptive text for this resource, up to 64 characters long. By default, the FriendlyName is a nicely formatted version of the phone number.
-
-   .. php:attr:: account_sid
-
-      The unique id of the Account responsible for this phone number.
-
-   .. php:attr:: phone_number
-
-      The incoming phone number. e.g., +16175551212 (E.164 format)
-
-   .. php:attr:: api_version
-
-      Calls to this phone number will start a new TwiML session with this API version.
-
-   .. php:attr:: voice_caller_id_lookup
-
-      Look up the caller's caller-ID name from the CNAM database (additional charges apply). Either true or false.
-
-   .. php:attr:: voice_url
-
-      The URL Twilio will request when this phone number receives a call.
-
-   .. php:attr:: voice_method
-
-      The HTTP method Twilio will use when requesting the above Url. Either GET or POST.
-
-   .. php:attr:: voice_fallback_url
-
-      The URL that Twilio will request if an error occurs retrieving or executing the TwiML requested by Url.
-
-   .. php:attr:: voice_fallback_method
-
-      The HTTP method Twilio will use when requesting the VoiceFallbackUrl. Either GET or POST.
-
-   .. php:attr:: status_callback
-
-      The URL that Twilio will request to pass status parameters (such as call ended) to your application.
-
-   .. php:attr:: status_callback_method
-
-      The HTTP method Twilio will use to make requests to the StatusCallback URL. Either GET or POST.
-
-   .. php:attr:: sms_url
-
-      The URL Twilio will request when receiving an incoming SMS message to this number.
-
-   .. php:attr:: sms_method
-
-      The HTTP method Twilio will use when making requests to the SmsUrl. Either GET or POST.
-
-   .. php:attr:: sms_fallback_url
-
-      The URL that Twilio will request if an error occurs retrieving or executing the TwiML from SmsUrl.
-
-   .. php:attr:: sms_fallback_method
-
-      The HTTP method Twilio will use when requesting the above URL. Either GET or POST.
-
-   .. php:attr:: uri
-
-      The URI for this resource, relative to https://api.twilio.com.
-
-AvailablePhoneNumbers
-========================
-
-.. php:class:: Services_Twilio_Rest_AvailablePhoneNumbers
-
-   For more information, see the `AvailablePhoneNumbers API Resource <http://www.twilio.com/docs/api/rest/available-phone-numbers#local>`_ documentation at twilio.com.
-
-   .. php:method:: getList($country, $type)
-
-    Get a list of available phone numbers.
-
-    :param string country: The 2-digit country code for numbers ('US', 'GB',
-        'CA')
-    :param string type: The type of phone number ('TollFree' or 'Local')
-    :return: An instance of the :php:class:`Services_Twilio_Rest_AvailablePhoneNumbers` resource.
-
-    .. php:attr:: available_phone_numbers
-
-       A list of :php:class:`Services_Twilio_Rest_AvailablePhoneNumber` instances.
-
-    .. php:attr:: uri
-
-       The uri representing this resource, relative to https://api.twilio.com.
-
-AvailablePhoneNumber
-========================
-
-.. php:class:: Services_Twilio_Rest_AvailablePhoneNumber
-
-   For more information, see the `AvailablePhoneNumber Instance Resource <http://www.twilio.com/docs/api/rest/available-phone-numbers#instance>`_ documentation.
-
-   .. php:attr:: friendly_name
-
-      A nicely-formatted version of the phone number.
-
-   .. php:attr:: phone_number
-
-      The phone number, in E.164 (i.e. "+1") format.
-
-   .. php:attr:: lata
-
-      The LATA of this phone number.
-
-   .. php:attr:: rate_center
-
-      The rate center of this phone number.
-
-   .. php:attr:: latitude
-
-      The latitude coordinate of this phone number.
-
-   .. php:attr:: longitude
-
-      The longitude coordinate of this phone number.
-
-   .. php:attr:: region
-
-      The two-letter state or province abbreviation of this phone number.
-
-   .. php:attr:: postal_code
-
-      The postal (zip) code of this phone number.
-
-   .. php:attr:: iso_country
+Queue
+============
+
+.. php:class:: Services_Twilio_Rest_Queue
+
+  For more information about available properties of a queue, see the `Queue 
+  Instance Resource <http://www.twilio.com/docs/api/rest/queue#instance>`_ 
+  documentation. A Queue has one subresource, a list of 
+  :php:class:`Services_Twilio_Rest_Members`.
 
 Recording
 =============
@@ -667,6 +751,13 @@ Recording
               'wav' => 'https://api.twilio.com/path/to/recording.wav',
               'mp3' => 'https://api.twilio.com/path/to/recording.mp3',
           )
+
+Message
+=======
+
+.. phpautoclass:: Services_Twilio_Rest_Message
+    :filename: ../Services/Twilio/Rest/Message.php
+    :members:
 
 SmsMessage
 ===========

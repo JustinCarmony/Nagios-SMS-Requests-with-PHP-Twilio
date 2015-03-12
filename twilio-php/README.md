@@ -1,8 +1,10 @@
+[![Build Status](https://secure.travis-ci.org/twilio/twilio-php.png?branch=master)](http://travis-ci.org/twilio/twilio-php)
+
 ## Installation
 
 You can install **twilio-php** via PEAR or by downloading the source.
 
-### Via PEAR (>= 1.9.3):
+#### Via PEAR (>= 1.9.3):
 
 PEAR is a package manager for PHP. Open a command line and use these PEAR
 commands to download the helper library:
@@ -16,7 +18,12 @@ If you get the following message:
 
 you can install PEAR from their website, or download the source directly.
 
-### Download the source code
+#### Via Composer:
+
+**twilio-php** is available on Packagist as the
+[`twilio/sdk`](http://packagist.org/packages/twilio/sdk) package.
+
+#### Via ZIP file:
 
 [Click here to download the source
 (.zip)](https://github.com/twilio/twilio-php/zipball/master) which includes all
@@ -25,14 +32,14 @@ dependencies.
 Once you download the library, move the twilio-php folder to your project
 directory and then include the library file:
 
-    require 'Services/Twilio.php';
+    require '/path/to/twilio-php/Services/Twilio.php';
 
 and you're good to go!
 
 ## A Brief Introduction
 
-With version 3.0 we've simplified interaction with the Twilio
-REST API. No more manually creating URLS or parsing XML/JSON.
+With the twilio-php library, we've simplified interaction with the
+Twilio REST API. No need to manually create URLS or parse XML/JSON.
 You now interact with resources directly. Follow the [Quickstart
 Guide](http://readthedocs.org/docs/twilio-php/en/latest/#quickstart)
 to get up and running right now. The [User
@@ -47,10 +54,13 @@ how to get the most out of **twilio-php**.
 <?php
 // Install the library via PEAR or download the .zip file to your project folder.
 // This line loads the library
-require('Services/Twilio.php');
+require('/path/to/twilio-php/Services/Twilio.php');
 
-$client = new Services_Twilio('AC123', '123');
-$message = $client->account->sms_messages->create(
+$sid = "ACXXXXXX"; // Your Account SID from www.twilio.com/user/account
+$token = "YYYYYY"; // Your Auth Token from www.twilio.com/user/account
+
+$client = new Services_Twilio($sid, $token);
+$message = $client->account->messages->sendMessage(
   '9991231234', // From a valid Twilio number
   '8881231234', // Text this number
   "Hello monkey!"
@@ -65,7 +75,7 @@ print $message->sid;
 <?php
 // Install the library via PEAR or download the .zip file to your project folder.
 // This line loads the library
-require('Services/Twilio.php');
+require('/path/to/twilio-php/Services/Twilio.php');
 
 $sid = "ACXXXXXX"; // Your Account SID from www.twilio.com/user/account
 $token = "YYYYYY"; // Your Auth Token from www.twilio.com/user/account
@@ -88,7 +98,7 @@ To control phone calls, your application needs to output
 
 ```php
 <?php
-require('Services/Twilio.php');
+require('/path/to/twilio-php/Services/Twilio.php');
 
 $response = new Services_Twilio_Twiml();
 $response->say('Hello');
@@ -115,7 +125,7 @@ Library Documentation")
 
 ## Prerequisites
 
-* PHP >= 5.2.1
+* PHP >= 5.2.3
 * The PHP JSON extension
 
 ## Reporting Issues
