@@ -9,7 +9,7 @@
  *
  * LICENSE:
  *
- * Copyright 2011 Twilio.
+ * Copyright 2014 Twilio.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,20 +26,23 @@
  * @category  Services
  * @package   Services_Twilio
  * @author    Neuman Vong <neuman@twilio.com>
- * @copyright 2011 Twilio
+ * @copyright 2014 Twilio
  * @license   http://creativecommons.org/licenses/MIT/
  * @link      http://pear.php.net/package/Services_Twilio
  */
 
+ini_set('display_errors', '0');
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+require_once 'PEAR/PackageFileManager/File.php';
 require_once 'PEAR/PackageFileManager2.php';
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
-$api_version     = '3.2.3';
+$api_version     = '3.13.0';
 $api_state       = 'stable';
 
-$release_version = '3.2.3';
+$release_version = '3.13.0';
 $release_state   = 'stable';
-$release_notes   = "No release notes.";
+$release_notes   = 'Add TaskRouter support';
 
 $description = <<<DESC
 A SDK (or helper library, as we're calling them) for PHP developers to write
@@ -62,15 +65,21 @@ $package->setOptions(
         'ignore'                  => array(
             'package.php',
             '*.tgz',
-			'docs/*',
+            'scratch/*',
+            'vendor/*',
+            'composer.*',
+            'coverage/*',
+            '.travis.yml',
+            'venv/*',
         )
     )
 );
 
+
 $package->setPackage('Services_Twilio');
 $package->setSummary('PHP helper library for Twilio');
 $package->setDescription($description);
-$package->setChannel('twilio.github.com/pear');
+$package->setChannel('twilio-pear.herokuapp.com/pear');
 $package->setPackageType('php');
 $package->setLicense(
     'MIT License',
@@ -85,16 +94,9 @@ $package->setAPIStability($api_state);
 
 $package->addMaintainer(
     'lead',
-    'luciferous',
-    'Neuman Vong',
-    'neuman+pear@twilio.com'
-);
-
-$package->addMaintainer(
-    'lead',
-    'derferman',
-    'Kyle Conroy',
-    'kyle+pear@twilio.com'
+    'ihumanable',
+    'Matt Nowack',
+    'matt@twilio.com'
 );
 
 
@@ -114,4 +116,3 @@ if (isset($_GET['make'])
     $package->debugPackageFile();
 }
 
-?>

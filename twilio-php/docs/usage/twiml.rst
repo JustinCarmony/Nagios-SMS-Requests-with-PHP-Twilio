@@ -4,7 +4,10 @@
 TwiML Creation
 ==============
 
-TwiML creation begins with the :class:`Services_Twilio_Twiml` verb. Each succesive verb is created by calling various methods on the response, such as :meth:`say` or :meth:`play`. These methods return the verbs they create to ease the creation of nested TwiML.
+TwiML creation begins with the :class:`Services_Twilio_Twiml` verb. Each
+succesive verb is created by calling various methods on the response, such as
+:meth:`say` or :meth:`play`. These methods return the verbs they create to ease
+the creation of nested TwiML.
 
 .. code-block:: php
 
@@ -84,7 +87,7 @@ Gather
     <?xml version="1.0" encoding="UTF-8"?>
     <Response>
       <Gather numDigits="5">
-        <Say>Hellow Caller</Say>
+        <Say>Hello Caller</Say>
       </Gather>
     <Response>
 
@@ -107,13 +110,13 @@ Record
       <Record action="http://foo.com/path/to/redirect" maxLength="20"/>
     </Response>
 
-Sms
----
+Message
+-------
 
 .. code-block:: php
 
     $response = new Services_Twilio_Twiml;
-    $response->sms('Hello World', array(
+    $response->message('Hello World', array(
       'to' => '+14150001111',
       'from' => '+14152223333'
     ));
@@ -123,7 +126,7 @@ Sms
 
     <?xml version="1.0" encoding="UTF-8"?>
     <Response>
-      <Sms to="+14150001111" from="+14152223333">Hello World</Sms>
+      <Message to="+14150001111" from="+14152223333">Hello World</Message>
     </Response>
 
 Dial
@@ -146,6 +149,8 @@ Dial
 
 Number
 ~~~~~~
+
+Dial out to phone numbers easily.
 
 .. code-block:: php
 
@@ -191,6 +196,58 @@ Client
 Conference
 ~~~~~~~~~~
 
+.. code-block:: php
+
+    require("Services/Twilio.php");
+    $response = new Services_Twilio_Twiml;
+    $dial = $response->dial();
+    $dial->conference('Customer Waiting Room', array(
+        "startConferenceOnEnter" => "true",
+        "muted" => "true",
+        "beep" => "false",
+    ));
+    print $response;
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Response>
+        <Dial>
+            <Conference startConferenceOnEnter="true" muted="true" beep="false">
+                Customer Waiting Room
+            </Conference>
+        </Dial>
+    </Response>
+
+Sip
+~~~
+
+To dial out to a Sip number, put the Sip address in the `sip()` method call.
+
+.. code-block:: php
+
+    require("Services/Twilio.php");
+    $response = new Services_Twilio_Twiml;
+    $dial = $response->dial();
+    $sip = $dial->sip();
+    $sip->uri('alice@foo.com?X-Header-1=value1&X-Header-2=value2', array(
+        "username" => "admin",
+        "password" => "1234",
+    ));
+    print $response;
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF‐8"?>
+    <Response>
+        <Dial>
+            <Sip>
+                <Uri username='admin' password='1234'>
+                    alice@foo.com?X-Header-1=value1&X-Header-2=value2
+                </Uri>
+            </Sip>
+        </Dial>
+    </Response>
 
 
 Secondary Verbs
@@ -268,6 +325,23 @@ Pause
       <Say>World</Say>
     </Response>
 
+Enqueue
+-------
+
+.. code-block:: php
+
+    $response = new Services_Twilio_Twiml;
+    $response->say("You're being added to the queue.");
+    $response->enqueue('queue-name');
+    print $response;
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Response>
+        <Say>You're being added to the queue.</Say>
+        <Enqueue>queue-name</Enqueue>
+    </Response>
 
 The verb methods (outlined in the complete reference) take the body (only text)
 of the verb as the first argument. All attributes are keyword arguments.

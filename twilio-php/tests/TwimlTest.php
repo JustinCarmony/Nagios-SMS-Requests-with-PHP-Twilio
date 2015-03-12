@@ -10,7 +10,7 @@ class TwimlTest extends PHPUnit_Framework_TestCase {
         m::close();
     }
     
-    function testEmptyRespnose() {
+    function testEmptyResponse() {
         $r = new Services_Twilio_Twiml();
         $expected = '<Response></Response>';
         $this->assertXmlStringEqualsXmlString($expected, $r,
@@ -44,6 +44,30 @@ class TwimlTest extends PHPUnit_Framework_TestCase {
         $r->say("Hello Monkey", array("language" => "fr"));
         $expected = '<Response><Say language="fr">'
             . 'Hello Monkey</Say></Response>';
+        $this->assertXmlStringEqualsXmlString($expected, $r);
+    }
+    
+    public function testSayUTF8() {
+        $r = new Services_Twilio_Twiml();
+        $r->say("é tü & må");
+        $expected = '<Response><Say>'
+            . '&#xE9; t&#xFC; &amp; m&#xE5;</Say></Response>';
+        $this->assertXmlStringEqualsXmlString($expected, $r);
+    }
+    
+    public function testSayNamedEntities() {
+        $r = new Services_Twilio_Twiml();
+        $r->say("&eacute; t&uuml; &amp; m&aring;");
+        $expected = '<Response><Say>'
+            . '&#xE9; t&#xFC; &amp; m&#xE5;</Say></Response>';
+        $this->assertXmlStringEqualsXmlString($expected, $r);
+    }
+    
+    public function testSayNumericEntities() {
+        $r = new Services_Twilio_Twiml();
+        $r->say("&#xE9; t&#xFC; &amp; m&#xE5;");
+        $expected = '<Response><Say>'
+            . '&#xE9; t&#xFC; &amp; m&#xE5;</Say></Response>';
         $this->assertXmlStringEqualsXmlString($expected, $r);
     }
     
@@ -83,6 +107,14 @@ class TwimlTest extends PHPUnit_Framework_TestCase {
         $r->record(array("action" => "example.com", "method" => "GET"));
         $expected = '<Response><Record action="example.com" '
             . 'method="GET"></Record></Response>';
+        $this->assertXmlStringEqualsXmlString($expected, $r);
+    }
+
+    public function testBooleanBecomesString() {   
+        $r = new Services_Twilio_Twiml();
+        $r->record(array("transcribe" => true));
+        $expected = '<Response><Record transcribe="true" '
+            . '></Record></Response>';
         $this->assertXmlStringEqualsXmlString($expected, $r);
     }
     

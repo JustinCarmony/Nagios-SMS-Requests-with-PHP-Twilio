@@ -10,24 +10,25 @@
 Status
 =======
 
-This documentation is for version 3.2 of `twilio-php <https://www.github.com/twilio/twilio-php>`_.
+This documentation is for version 3.13.0 of `twilio-php
+<https://www.github.com/twilio/twilio-php>`_.
 
 Quickstart
 ============
 
-Send a SMS
+Send an SMS
 >>>>>>>>>>>
 
 .. code-block:: php
 
     // Download the library and copy into the folder containing this file.
-    require("Services/Twilio.php");
+    require('/path/to/twilio-php/Services/Twilio.php');
 
     $account_sid = "ACXXXXXX"; // Your Twilio account sid
     $auth_token = "YYYYYY"; // Your Twilio auth token
 
-    $client = new Services_Twilio('AC123', '123');
-    $message = $client->account->sms_messages->create(
+    $client = new Services_Twilio($account_sid, $auth_token);
+    $message = $client->account->messages->sendMessage(
       '+14085551234', // From a Twilio number in your account
       '+12125551234', // Text any number
       "Hello monkey!"
@@ -41,7 +42,7 @@ Make a Call
 .. code-block:: php
 
     // Download the library and copy into the folder containing this file.
-    require("Services/Twilio.php");
+    require('/path/to/twilio-php/Services/Twilio.php');
 
     $account_sid = "ACXXXXXX"; // Your Twilio account sid
     $auth_token = "YYYYYY"; // Your Twilio auth token
@@ -49,7 +50,7 @@ Make a Call
     $client = new Services_Twilio($account_sid, $auth_token);
     $call = $client->account->calls->create(
       '+14085551234', // From a Twilio number in your account
-      '+12125551234', // Text any number
+      '+12125551234', // Call any number
 
       // Read TwiML at this URL when a call connects (hold music)
       'http://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient'
@@ -75,7 +76,9 @@ to easily create such responses.
     <Response>
         <Say>Hello</Say>
         <Play loop="5">https://api.twilio.com/cowbell.mp3</Play>
-    <Response>
+    </Response>
+
+View more examples of TwiML generation here: :ref:`usage-twiml`
 
 Installation
 ============
@@ -86,10 +89,12 @@ downloading the source.
 Via PEAR
 >>>>>>>>>>>>>
 
+Use the ``Makefile`` in the repo's top
+
 .. code-block:: bash
 
-    pear channel-discover twilio.github.com/pear
-    pear install twilio/Services_Twilio    # may need to run sudo pear instead
+	pear channel-discover twilio.github.com/pear
+	pear install twilio/Services_Twilio
 
 From Source
 >>>>>>>>>>>>>
@@ -120,12 +125,13 @@ TwiML and other utilities
     usage/twiml
     usage/validation
     usage/token-generation
+    faq/
 
 API Documentation
 ==================
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 3
     :glob:
 
     api/*
@@ -141,31 +147,23 @@ check out the source, run
 
     git clone git@github.com:twilio/twilio-php.git
 
-
 Report bugs using the Github `issue tracker <https://github.com/twilio/twilio-php/issues>`_.
 
-If you’ve got questions that aren’t answered by this documentation, ask the
-`#twilio IRC channel <irc://irc.freenode.net/#twilio>`_
+If you've got questions that aren't answered by this documentation, ask the
+Twilio support team at help@twilio.com.
 
 Running the Tests
 >>>>>>>>>>>>>>>>>>>>>>>>>
 
-The unit tests depend on `Mockery <https://github.com/padraic/mockery>`_ and `PHPUnit <https://github.com/sebastianbergmann/phpunit>`_. First, 'discover' all the necessary `PEAR` channels:
+The unit tests depend on `Mockery <https://github.com/padraic/mockery>`_ and
+`PHPUnit <https://github.com/sebastianbergmann/phpunit>`_. First, 'discover' all
+the necessary `PEAR` channels:
 
 .. code-block:: bash
 
-    pear channel-discover pear.phpunit.de
-    pear channel-discover components.ez.no
-    pear channel-discover pear.symfony-project.com
-    pear channel-discover pear.survivethedeepend.com
-    pear channel-discover hamcrest.googlecode.com/svn/pear
+    make test-install
 
-.. code-block:: bash
-
-    pear install --alldeps deepend/Mockery
-    pear install phpunit/PHPUnit
-
-After installation, run the tests with :data:`make`
+After installation, run the tests with :data:`make`.
 
 .. code-block:: bash
 
@@ -180,12 +178,11 @@ need to install Sphinx and the Sphinx PHP domain before you can build the docs.
 
 .. code-block:: bash
 
-    pip install Sphinx sphinxcontrib-phpdomain
+    make docs-install
 
 Once you have those installed, making the docs is easy.
 
 .. code-block:: bash
 
-    cd docs
-    make html
+    make docs
 
